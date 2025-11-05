@@ -1399,46 +1399,7 @@ export default {
 
       // Other Items
       console.log('Items');
-      for (let item of Object.values(this.inventory[2].children)) {
-        console.log(item.label, item); // backpack
-
-        if (item.children) {
-          for (let child of Object.values(item.children)) {
-            console.log(child.label, child); // holding
-
-            if (child.children) {
-              for (let item of Object.values(child.children)) {
-                console.log(item.label, item); // sash
-
-                if (item.children) {
-                  for (let child of Object.values(item.children)) {
-                    console.log(child.label, child); // backpack
-
-                    if (child.children) {
-                      for (let item of Object.values(child.children)) {
-                        console.log(item.label, item); // kettle
-                      }
-                    }
-
-                    console.log(child.label);
-                  } // end child container 3
-                }
-
-                console.log(item.label);
-              } // end child container 2
-            }
-
-            console.log(child.label);
-          } // end child container 1
-        }
-
-        console.log(item.label);
-      } // end main container
-
-
-
-
-
+      this.logInventoryRecursively(this.inventory[2].children);
 
 
       return invTotal;
@@ -2444,6 +2405,18 @@ export default {
       const index = children.findIndex(d => d.label === data.label);
       children.splice(index, 1);
       this.$message({ message: `${data.label} was removed from inventory`, type: "warning" });
+    },
+    logInventoryRecursively(container) {
+      for (let item of Object.values(container)) {
+        // NOTE: 
+        console.log(item.label, item);
+        
+        if (item.children) {
+          this.logInventoryRecursively(item.children);
+        }
+        
+        console.log(item.label);
+      }
     },
 
     /***************************\
